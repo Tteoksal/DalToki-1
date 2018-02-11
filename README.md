@@ -54,11 +54,12 @@ TTeok(떡)은 HTML의 문법을 개량한 객체 지향 프로그래밍 페러�
 6. Record
 7. List
 8. BigInt
-9. 타입 구현
-11. Execution stack
+9. 추상 명령
+10. Execution stack
+11. Context
 12. Environment
-11. 알고리즘
-
+13. 모듈 작성
+14. 알고리즘
 
 ---------------------------------------
 

@@ -280,7 +280,7 @@ EBNF 표기는 아래와 같습니다.
 EBNF 표기는 아래와 같습니다.
 
      integer ::=  0|1|2|3|4|5|6|7|8|9
-     number ::= integer "[" .integer "]"
+     numberLiteral ::= integer "[" .integer "]"
      
 ##### 4.iii.b null 리터럴
 
@@ -304,7 +304,7 @@ EBNF 표기는 아래와 같습니다.
     value ::= object | number | null | list | string | char
     element ::= "[" identifier : "(" value | type ")" "]"
     elements ::= element "[" , element "]"
-    object ::= ( "[" elements "]" )
+    objectLiteral ::= ( "[" elements "]" )
     
 ##### 4.iii.d 문자 리터럴        
 
@@ -317,7 +317,7 @@ EBNF 표기는 아래와 같습니다.
     
 EBNF 표기는 아래와 같습니다.
 
-    char ::= ' "{" UTF8Char "}" '
+    charLiteral ::= ' "[" UTF8Char "]" '
     
 ##### 4.iii.e 문자열 리터럴
 
@@ -330,7 +330,7 @@ EBNF 표기는 아래와 같습니다.
     
 EBNF 표기는 아래와 같습니다.
 
-    string ::= " "{" UTF8Char "}" "
+    stringLiteral ::= " "{" UTF8Char "}" "
     
 ##### 4.iii.f 리스트 리터럴
 
@@ -342,15 +342,18 @@ EBNF 표기는 아래와 같습니다.
     
 EBNF 표기는 아래와 같습니다.
 
-    list ::= [ "[" elements "]" ]
+    listLiteral ::= [ "[" elements "]" ]
     
 ##### 4.iii.g 인터페이스 리터럴
 
 인터페이스 리터럴은 인터페이스 값을 문자로 표현하는 방식입니다.
 { name = \`메서드명\` args = \`(인자명 : 타입)\` }, ... 형식으로 표현한 것은 인터페이스 리터럴로 간주합니다.
 
-    interface ::= { name = `identifier` args = `object` }
-    interfaces ::= interface "[" , interface "]"
+EBNF 표기는 아래와 같습니다.
+
+    interface ::= { name = `identifier` args = `objectLiteral` }
+    interfaceLiteral ::= interface "[" , interface "]"
+    
 #### 4.iii.h 컨테이너 리터럴
 
 컨테이너 리터럴은 컨테이너 타입을 가진 객체 값을 문자로 표현하는 방식입니다.
@@ -380,10 +383,10 @@ EBNF 표기는 아래와 같습니다.
     
     option ::= identifier = ` value `
     options ::= option "{" , option "}"
-    containerBody ::= "{" container "}"
+    containerBody ::= "{" containerLiteral "}"
     containerHead ::= identifier "[" options "]" containerTail
     containerTail ::= /> | > containerBody </ "(" > | containerHead ")"
-    container ::= < containerHead
+    containerLiteral ::= < containerHead
 
 ###### 4.iii.h.a 속성
 
@@ -405,7 +408,7 @@ EBNF 표기는 아래와 같습니다.
 
 EBNF 표기는 아래와 같습니다.
 
-    containerBody ::= "{" container "}"
+    containerBody ::= "{" containerLiteral "}"
     
 ###### 4.iii.h.c 컨테이너 체이닝
 

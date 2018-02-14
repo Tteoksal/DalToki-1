@@ -90,10 +90,25 @@ TTeok(떡)은 SGML의 문법을 개량한 객체 지향 프로그래밍 페러�
 떡 언어에서 값은 원시값과 인공값 두 종류가 있습니다.
 타입은 값을 표현하는 방식입니다. 같은 값 1을 가지고 있는 변수라 할지라도 타입에 따라 다르게 표현됩니다.
 떡에서, 값과 타입은 변수에 담겨있습니다.
-특정 타입은 특정 값들과만 같은 변수 내에 있을 수 있습니다. 이를 타입-값 관계라고 합니다.
-타입-값 관계는 Table 1에 명시되어 있습니다.
+또한 각 타입을 나타내는 타입 상수가 존재합니다.
+타입 상수는 아래 Table 1에 명시되어 있습니다.
 
 Table 1
+
+| 타입| 상수명 |
+|:--------:|:--------:|
+| 숫자 타입 | %number |
+| 문자 타입 | %char  |
+| null 타입 | %null |
+| 객체 타입 | %object |
+| 인터페이스 타입 | %interface |
+| 컨테이너 타입 | %container |
+| 리스트 타입 | %list |
+
+특정 타입은 특정 값들과만 같은 변수 내에 있을 수 있습니다. 이를 타입-값 관계라고 합니다.
+타입-값 관계는 Table 2에 명시되어 있습니다.
+
+Table 2
 
 | 타입\값 | 숫자 값 | null 값 | 객체 값 | 인터페이스 값 | 리스트 값 |
 |:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
@@ -105,8 +120,6 @@ Table 1
 | 컨테이너 타입 | 불가능 | 가능 | 가능 | 불가능 | 불가능 |
 | 리스트 타입 | 불가능 | 가능 | 불가능 | 불가능 | 가능 |
 
-// TODO : 빈 컨테이너에 대한 논의 필요.
-
 #### 3.i 원시값과 타입
 
 원시 값은 불변성을 가진 값을 의미합니다.
@@ -117,7 +130,7 @@ Table 1
 떡에서, 숫자 크기 제한은 없습니다.
 숫자 값은 담긴 변수의 타입이 명시되지 않았을 때, 숫자 타입을 가지게 만듭니다. 
     
-    <var name = `number` type  = `typeof 0`>
+    <var name = `number` type  = `%number`>
         1234
     </>  
    
@@ -127,7 +140,7 @@ Table 1
 값에 접근할 때 변수의 값을 숫자로 형 변환을 한 후 변수의 값으로서 전달해줍니다.
 숫자 타입은 담긴 변수의 값이 초기화 되지 않았을 때 숫자 값 0을 기본값으로서 할당합니다.
 
-    <var name = `number` type = `typeof 0`/> 
+    <var name = `number` type = `%number`/> 
     
 ##### 3.i.c 문자 타입
 
@@ -136,7 +149,7 @@ Table 1
 변수의 값을 숫자로 형 변환을 한 후 UTF-8 코드에서 해당하는 문자를 변수의 값으로서 전달해줍니다.
 문자 타입은 담긴 변수의 값이 초기화 되지 않았을 때 숫자 값 20을 기본값으로서 할당합니다.
 
-    <var name = `char` type  = `typeof '' `/>
+    <var name = `char` type  = `%char`/>
     
 ##### 3.i.d null 값
 
@@ -144,7 +157,7 @@ null 값은 빈 값을 의미합니다. 읽기와 쓰기, 원시 타입으로의
 TypeException 예외를 일으킵니다.
 null 값은 담긴 변수의 타입이 명시되지 않았을 때, null 타입을 가지게 만듭니다.
 
-     <var name = `null` type  = `typeof null`>
+     <var name = `null` type  = `%null`>
         null
      </>
     
@@ -154,7 +167,7 @@ null 타입은 빈 값을 표현하는 형식입니다.
 변수의 값에 무엇이 들어있든 값에 접근할 때 null을 변수의 값으로서 전달해줍니다.
 null 타입은 담긴 변수의 값이 초기화 되지 않았을 때 null 값을 기본값으로서 할당합니다.
 
-     <var name = `null` type  = `typeof null`/>   
+     <var name = `null` type  = `%null`/>   
 
 #### 3.ii 인공값과 타입
 
@@ -181,7 +194,7 @@ null 타입은 담긴 변수의 값이 초기화 되지 않았을 때 null 값�
     <var name = `object`/>
         (x : 1, y : (z : 'a') )
     </>
-    # typeof (x : typeof 0, y : typeof(z : typeof '') ) 이게 위 객체의 구조이자 타입입니다. 
+    # typeof (x : %number, y : typeof (z : %char) ) 이게 위 객체의 구조이자 타입입니다. 
   
 ##### 3.ii.c 인터페이스 값
 
@@ -190,7 +203,7 @@ null 타입은 담긴 변수의 값이 초기화 되지 않았을 때 null 값�
 
     <var name = `interface` >
         { name = `method1` args = `()` },
-        { name = `method2` args = `typeof 0, typeof '' ` }
+        { name = `method2` args = `%number, %char ` }
     </>
 
 ##### 3.ii.d 인터페이스 타입
@@ -201,14 +214,14 @@ null 타입은 담긴 변수의 값이 초기화 되지 않았을 때 null 값�
 
     <var name = `interface` >
             { name = `method1` args = `()` },
-            { name = `method2` args = `typeof 0, typeof '' ` }
+            { name = `method2` args = `%number, %char` }
     </>
     <var name = `impl` >
         (
             method1 : <function name = `method1` args = ``>
                 #something awesome
                 </>,
-            method2 : <function name = `method2` args = `typeof (x : typeof 0, y : typeof '')` >
+            method2 : <function name = `method2` args = `typeof (x : %number, y : %char)` >
                 #something awesome2 
                 </>    
         )
@@ -218,19 +231,21 @@ null 타입은 담긴 변수의 값이 초기화 되지 않았을 때 null 값�
 
 컨테이너 타입은 객체로 표현된 컨테이너를 표현하는 타입입니다.
 모든 컨테이너는 객체로 표현되어 있습니다.
-인터페이스 타입은 담긴 변수의 값이 초기화 되지 않았을 때 객체 값( @head : typeof \[typeof \[typeof "", typeof null\]\], @body : typeof \[typeof null\] )을 기본값으로서 할당합니다.
-변수의 값이 초기화가 되어있는 경우에는 @head : typeof \[typeof \[typeof "", typeof null\]\], @body : typeof \[typeof null\] 를 요소로써 객체 값에 추가합니다.
+인터페이스 타입은 담긴 변수의 값이 초기화 되지 않았을 때 객체 값( @head : typeof \[typeof \[typeof \[%char\], %null\]\], @body : typeof \[%null\] )을 기본값으로서 할당합니다.
+변수의 값이 초기화가 되어있는 경우에는 @head : typeof \[typeof \[typeof \[%char\], %null\]\], @body : typeof \[%null\] 를 요소로써 객체 값에 추가합니다.
 @head에는 문자열 : 값 형식으로 컨테이너 헤드가 표현됩니다. 
 @body에는 값들의 리스트로 컨테이너 바디가 표현됩니다.
 
-    <var name = `container1` type = `typeof <container></>` />
-// TODO : 빈 컨테이너에 대한 논의 필요.    
+    <var name = `container1` type = `%container` />
+
 ##### 3.ii.f 리스트 값
 
 리스트 값(이하 리스트)은 열거 가능한 값들의 연속입니다. 값으로는 떡의 값이 들어갈 수 있습니다.
 리스트는 담긴 변수의 타입이 명시되지 않았을 때, 리스트 타입을 가지게 만듭니다.
 
-    
+    <var name = `list1` type = `%list`>
+        [1, 2, 3, 4]
+    </>
     
 ##### 3.ii.g 리스트 타입
 
@@ -241,7 +256,7 @@ null 타입은 담긴 변수의 값이 초기화 되지 않았을 때 null 값�
     <var type  = `%list`/> 
 
 ---------------------------------------    
-### 4 구문 
+### 4 구문
 
 #### 4.i 주석
 
@@ -262,7 +277,16 @@ EBNF 표기는 아래와 같습니다.
     
 #### 4.ii 연산자
 
-##### 4.ii.a typeof 연산자    
+연산자는 표현식에서 연산을 위해 사용되는 기호입니다.
+
+##### 4.ii.a typeof 연산자 
+
+typeof 연산자는 특정 변수의 타입을 얻기 위해 사용됩니다.
+typeof 변수 형태로 사용합니다.
+
+EBNF 표기는 아래와 같습니다.
+
+    typeofOperator ::= typeof variable
     
 #### 4.iii 리터럴
     
@@ -275,11 +299,9 @@ EBNF 표기는 아래와 같습니다.
 10진수 표기법으로 표기한 숫자는 모두 숫자 리터럴로 간주됩니다..
 
     <var name = `num_literal` type = `%number` value = `1` />
-    #여기서 1이 숫자 리터럴입니다.
 
 EBNF 표기는 아래와 같습니다.
 
-     integer ::=  0|1|2|3|4|5|6|7|8|9
      numberLiteral ::= integer "[" .integer "]"
      
 ##### 4.iii.b null 리터럴
@@ -288,7 +310,7 @@ null 리터럴은 null 값을 문자로 표현하는 방식입니다.
 아래와 같이 알파벳 n,u,l,l을 연속해서 사용한 것이 null 리터럴로 간주됩니다.
 
     <var name = `null_literal` type = `%null` value = `null` />
-    #여기서 null이 null 리터럴입니다.    
+    nullLiteral ::= null
     
 ##### 4.iii.c 객체 리터럴
 
@@ -296,15 +318,15 @@ null 리터럴은 null 값을 문자로 표현하는 방식입니다.
 ( 프로퍼티 이름 : 값 또는 타입, ... ) 형식으로 표현한 것은 객체 리터럴로 간주됩니다.
 
     <var name = `object_literal` type = `%object` value = `(x : 1, y : 2)` />
-    #여기서 (x : 1, y : 2)이 객체 리터럴입니다.
     
 EBNF 표기는 아래와 같습니다.
 
-    type ::= %number | %char | %null | %object | %class | %function | %list
-    value ::= object | number | null | list | string | char
-    element ::= "[" identifier : "(" value | type ")" "]"
-    elements ::= element "[" , element "]"
-    objectLiteral ::= ( "[" elements "]" )
+    type ::= %number | %char | %null | %object | %interface | %container | %list | typeofOperator
+    value ::= objectLiteral  | numberLiteral  | nullLiteral  | listLiteral  | stringLiteral  | charLiteral  | containerLiteral | interfaceLiteral
+    variable ::= type | value | identifier
+    property ::= identifier : variable
+    properties ::= property "[" , property "]"
+    objectLiteral ::= ( "[" properties "]" )
     
 ##### 4.iii.d 문자 리터럴        
 
@@ -312,8 +334,6 @@ EBNF 표기는 아래와 같습니다.
 '로 둘러쌓인 UTF8에서 지원하는 문자는 문자 리터럴로 간주됩니다.
     
     <var name = `char_literal` type = `%char` value = ` 'A' ` />
-    #여기서 A가 문자 리터럴입니다.
-    #변수 A의 값은 A의 utf-8 인코딩 값인 41이 되고, 타입은 문자 타입이 됩니다.
     
 EBNF 표기는 아래와 같습니다.
 
@@ -325,7 +345,6 @@ EBNF 표기는 아래와 같습니다.
 "" 로 둘러쌓인 문자는 문자열 리터럴로 간주됩니다.
 
     <var name = `string_literal` type = `list` value = ` "Hello" ` />
-    #여기서 Hello가 문자열 리터럴입니다.
     #NOTE : "Hello" 는 [ 'H', 'e', 'l', 'l', 'o' ] 와 같습니다.
     
 EBNF 표기는 아래와 같습니다.
@@ -337,12 +356,13 @@ EBNF 표기는 아래와 같습니다.
 리스트 리터럴은 리스트 값을 문자로 표현하는 방식입니다.
 \[값 또는 타입, ...\] 형식으로 표현한 것은 리스트 리터럴로 간주됩니다.
 
-    <var name = `list_literal` type = `list` value = `[ 1,%null,'A' ]` />
-    #[ 1,%null,'A' ]이 리스트 리터럴입니다.
+    <var name = `list_literal` type = `list` value = `[ 1,typeof null,'A' ]` />
     
 EBNF 표기는 아래와 같습니다.
 
-    listLiteral ::= [ "[" elements "]" ]
+    property ::= identifier : variable
+    properties ::= property "[" , property "]"
+    listLiteral ::= [ "[" properties "]" ]
     
 ##### 4.iii.g 인터페이스 리터럴
 
@@ -381,7 +401,7 @@ EBNF 표기는 아래와 같습니다.
     
 EBNF 표기는 아래와 같습니다.
     
-    option ::= identifier = ` value `
+    option ::= identifier = ` variable `
     options ::= option "{" , option "}"
     containerBody ::= "{" containerLiteral "}"
     containerHead ::= identifier "[" options "]" containerTail
@@ -398,7 +418,7 @@ EBNF 표기는 아래와 같습니다.
     
 EBNF 표기는 아래와 같습니다.
 
-    option ::= identifier = ` value `
+    option ::= identifier = ` variable `
     options ::= option "{" , option "}"
     
 ###### 4.iii.h.b 자식 컨테이너
@@ -412,7 +432,7 @@ EBNF 표기는 아래와 같습니다.
     
 ###### 4.iii.h.c 컨테이너 체이닝
 
-//스코프 확장 설명.
+
    
 ---------------------------------------
 
@@ -470,9 +490,9 @@ RuntimeException은 실행 도중 잘못된 참조, 존재하지 않는 변수�
 
 ### 8. 변수 구현
 
-변수는 Table 2에 명시된 레코드로 구현됩니다.
+변수는 Table 3에 명시된 레코드로 구현됩니다.
 
-Table 2
+Table 3
 
 | 이름 | 값 | 용도 |
 |:--------:|:--------:|:--------:|

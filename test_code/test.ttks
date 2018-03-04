@@ -1,4 +1,0 @@
-<MAIN>
-    <var name=`arr` value=`1,2,3,4` />
-	<@print args=`arr` />
-</MAIN>
